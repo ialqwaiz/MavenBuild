@@ -1,12 +1,13 @@
 node('master') {
   ansiColor('xterm') {
-	stage ('checkout code'){
-		checkout scm
-	}
-	node('slave1||slave2'){
-	stage ('Build on slave nodes'){
-		sh "mvn clean install -Dmaven.test.skip=true"
-	}
+	  node('slave1||slave2'){
+		  stage ('checkout code'){
+			  checkout scm
+			}
+
+			stage ('Build on slave nodes'){
+			sh "mvn clean install -Dmaven.test.skip=true"
+		}
 	}
 
 	stage ('Test Cases Execution'){
