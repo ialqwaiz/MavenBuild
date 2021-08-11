@@ -1,11 +1,11 @@
 node('master') {
-  ansiColor('xterm') {
-	  node('slave1'){
-		  stage ('checkout code'){
-			  checkout scm
+	ansiColor('xterm') {
+		node('slave1'){
+			stage ('checkout code'){
+				checkout scm
 			}
 
-			stage ('Build on slave nodes'){
+			stage ('Build'){
 				sh "mvn clean install -Dmaven.test.skip=true"
 			}
 
@@ -19,8 +19,8 @@ node('master') {
 		}
 
 		node('slave2'){
-		  stage ('checkout code'){
-			  checkout scm
+			stage ('checkout code'){
+				checkout scm
 			}
 
 			stage ('Build on slave nodes'){
@@ -36,19 +36,16 @@ node('master') {
 			}
 		}
 
-
-	
-	
-	stage ('Deployment'){
+		stage ('Deployment'){
 		
-	}
-	stage ('Notification'){
-		//slackSend color: 'good', message: 'Deployment Sucessful'
-		emailext (
-		      subject: "Job Completed",
-		      body: "Jenkins Pipeline Job for Maven Build got completed !!!",
-		      to: "ialqwaiz@gmail.com"
-		    )
-	}
+		}
+		stage ('Notification'){
+			//slackSend color: 'good', message: 'Deployment Sucessful'
+			emailext (
+				subject: "Job Completed",
+				body: "Jenkins Pipeline Job for Maven Build got completed !!!",
+				to: "ialqwaiz@gmail.com"
+			)
+		}
    }
 }
